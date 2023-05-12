@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redis;
 
 class SendMailJob implements ShouldQueue
 {
@@ -30,6 +31,10 @@ class SendMailJob implements ShouldQueue
     {
         info(" ----------------------------- Starting send job Mail ----------------");
         sleep(10);
+        for ($i=1; $i <100 ; $i++) { 
+            $redisKey = "STAFF_" . $i;
+            Redis::get($redisKey, "xin chao ". $i, "EX", 300);
+        }
         Mail::to("hoangkha0164@gmail.com")->send( new JobMail());
         info(" ---------------  End send mail --------------");
     }
